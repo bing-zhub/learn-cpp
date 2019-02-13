@@ -21,6 +21,7 @@ int main(){
 
     cout << s1.top() << " " << endl;
     s1.pop();
+    // pop只弹出栈顶元素 不返回
 
     cout << s1.empty() << " "<<endl;
 
