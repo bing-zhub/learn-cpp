@@ -15,6 +15,6 @@ int lowerBound(int arr[], int l, int r, int x){
 
 int main(){
     int arr[7] = {12 ,13 ,15, 46, 46, 91, 20};
-    cout << lowerBound(arr, 0, 6, 46);
+    cout << lowerBound(arr, 0, 6, 45);
     return 0;
 }
