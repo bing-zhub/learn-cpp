@@ -1,5 +1,4 @@
-// bug not found 23/25
-
+// notice that 1=1 and 1 is not a prime
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -24,6 +23,10 @@ int main(){
     int x;
     cin >> x;
     int t = x;
+    if(x==1){
+        cout << "1=1";
+        return 0;
+    }
     findPrime();
     int i = 0;
     for(int j = 0; j < maxN && x > 1; j++){
@@ -38,6 +41,7 @@ int main(){
         }
     }
     cout << t <<"=";
+
     for(int i =0; i < 10; i++){
         if(f[i].p!=0){
             if(!i)
