@@ -68,6 +68,39 @@ bign sub(bign a, bign b){
     return c;
 }
 
+bign mul(bign a, int b){
+    bign c;
+    int carry = 0;
+    for(int i = 0; i < a.len; i++){
+        int temp = a.d[i] * b + carry;
+        c.d[c.len++] = temp%10;
+        carry = temp/10; 
+    }
+    while(carry!=0){
+        c.d[c.len++] = carry %10;
+        carry /= 10;
+    }
+    return c;
+}
+
+// r为余数
+bign divide(bign a, int b, int &r){
+    bign c;
+    c.len = a.len; // 被除数和商 每一位一一对应
+    for(int i = a.len-1; i >=0; i--){
+        r = r * 10 + a.d[i];
+        if(r < b) c.d[i] = 0;
+        else{
+            c.d[i] = r / b; // 商
+            r = r % b; // 新的余数
+        }
+    }
+    while(c.len - 1 >= 1 && c.d[c.len -1] == 0){
+        c.len--;
+    }
+    return c;
+}
+
 int main(){
     char str1[] = "123456";
     char str2[] = "234567";
@@ -85,5 +118,14 @@ int main(){
     for(int i = d.len-1; i >=0; i--){
         cout << d.d[i];
     }
+    cout << endl;
+
+    bign e = mul(a, 2);
+    cout << 123456*2 << endl;
+    for(int i = e.len-1; i >=0; i--){
+        cout << e.d[i];
+    }
+    cout << endl;
+
     return 0;
 }
