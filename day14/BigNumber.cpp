@@ -34,9 +34,9 @@ vector<int> add(vector<int> &a, vector<int> &b){
 vector<int> sub(vector<int> a, vector<int> b){
   vector<int> c;
   for(int i = 0, t = 0; i < a.size(); i++){
-    t = a[i] - t;
-    if(i < b.size()) t -= b[i];
-    c.push_back((t+10)%10);
+    t = a[i] - t; // 先减去借位
+    if(i < b.size()) t -= b[i]; // b还有数
+    c.push_back((t+10)%10); // 借位 +10 取余数
     // 借位 1 不借位 0
     if(t < 0) t = 1;
     else t = 0; 
