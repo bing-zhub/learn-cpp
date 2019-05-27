@@ -105,4 +105,46 @@ int main(){
 ```
 
 
-##
+## 位运算
+
+### n的二进制表示中第K位是几
+
+n = 15 = (1111)2
+1. 先把第K位移到最后 `>>k`
+2. 看下个位是几 `x&1`
+
+`n >> k & 1`
+
+### 返回x的最后一位1
+[803]()
+二进制表示中共有多少个1
+
+x = 1010
+lowbit(x) = 10
+
+x = 101000
+lowbit(x) = 1000
+
+`x&-x` = `x&(~x+1)`
+
+
+``` C++
+#include <iostream>
+using namespace std;
+
+int lowbit(int x){
+  return x&-x;
+}
+
+int main(){
+  int n;
+  cin >> n;
+  while(n --) {
+    int x;
+    cin >> x;
+    int res = 0;
+    while(x) x-=lowbit(x), res++;
+    cout << res << " ";
+  }
+}
+```
