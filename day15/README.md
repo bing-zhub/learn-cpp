@@ -148,3 +148,122 @@ int main(){
   }
 }
 ```
+
+## 离散
+804
+``` C++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+typedef pair<int, int> PII;
+
+const int N = 3e6+10;
+
+int n, m;
+int a[N], s[N];
+
+vector<int> alls;
+vector<PII> add, query;
+
+int find(int x){
+  int l = 0, r = alls.size() - 1;
+  while(l < r) {
+    int mid = l + r >> 1;
+    if(alls[mid] >= x) r = mid;
+    else l = mid + 1;
+  }
+  return r + 1;
+}
+
+int main(){
+  cin >> n >> m;
+  for(int i = 0; i < n; i++){
+    int x,c;
+    cin >> x >> c;
+    // 以pair形式读入所有操作数
+    add.push_back({x,c});
+    alls.push_back(x);
+  }
+  for(int i = 0; i < m; i++){
+    int l, r;
+    cin >> l >> r;
+    query.push_back({l, r});
+
+    alls.push_back(l);
+    alls.push_back(r);
+  }
+
+
+  // 去重
+  sort(alls.begin(), alls.end());
+  alls.erase(unique(alls.begin(), alls.end()), alls.end());
+  // alls剩下都是不重复的
+
+  // 把add离散化到a 处理插入
+  for(auto item:add){
+    int x = find(item.first);
+    a[x] += item.second;
+  }
+
+
+  for(int i = 1; i <= alls.size(); i++) s[i] = s[i -1] + a[i];
+  for(auto item:query){
+    int l = find(item.first) , r = find(item.second);
+    cout << s[r] - s[l-1] << endl;
+  }
+  return 0;
+}
+```
+
+## 区间合并
+1. 按照区间左端点排序
+2. 扫描整个区间, 把可能有交集区间进行合并
+``` C++
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+typedef pair<int, int> PII;
+
+const int N = 1e6 + 10;
+
+int n;
+vector<PII> segs;
+
+void merge(vector<PII> &segs){
+  vector<PII> res;
+  sort(segs.begin(), segs.end());
+
+  int st = -2e9, ed = -2e9;
+  for(auto seg: segs)
+    if(ed< seg.first){
+      if(st != -2e9) res.push_back({st, ed});
+      st = seg.first, ed = seg.second;
+    }else {
+      ed = max(ed, seg.second);
+    }
+  
+  if(st != -2e9) res.push_back({st, ed});
+
+  segs = res;
+}
+
+int main(){
+  cin >> n;
+  for(int i = 0; i < n; i++){
+    int l, r;
+    cin >> l >> r;
+    segs.push_back({l, r});
+  }
+
+  merge(segs);
+
+  cout << segs.size() << endl;
+
+  return 0;
+}
+```
