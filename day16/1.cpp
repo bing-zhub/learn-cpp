@@ -1,37 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-const int N = 1e6 + 10;
-int m;
-int e[N], l[N], r[N], idx;
+const int N = 1e6+10;
 
-void init(){
-  // 0左端点 1右端点
-  r[0] = 1;
-  l[1] = 0;
-  idx = 2;
-}
-
-// 在下标为k的右边插入x
-void add(int k, int x){
-  e[idx] = x;
-  r[idx] = r[k];
-  l[idx] = k;
-  l[r[k]] = idx;
-  r[k] = idx;
-}
-
-// 删除第K个点
-void remove(int k){
-  r[l[k]] = r[k];
-  l[r[k]] = l[k];
-}
-
-void add_left(int k, int x){
-  add(l[k], x);
-}
+int n;
+int stk[N], tt;
 
 int main(){
-  init();
+  cin >> n;
+  for(int i = 0;i < n; i++){
+    int x; 
+    cin >> x;
+    while(tt && stk[tt] >= x) tt --;
+    if(tt) cout << stk[tt] << ' ';
+    else cout << -1 << ' ';
+    stk[++ tt] = x;
+  }
   return 0;
 }
