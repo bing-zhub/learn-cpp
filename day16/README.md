@@ -106,6 +106,7 @@ int main(){
 
 # 栈与队列
 ## 单调栈
+[单调栈](https://www.acwing.com/problem/content/832/)
 ``` C++
 #include <iostream>
 using namespace std;
@@ -128,4 +129,44 @@ int main(){
   return 0;
 }
 ```
+## 单调队列
+[滑动窗口](https://www.acwing.com/problem/content/156/)
+``` C++
+#include <iostream>
+using namespace std;
+
+const int N = 1e6 + 10;
+
+int n, k;
+int a[N], q[N];
+
+int main(){
+  scanf("%d %d", &n, &k);
+  for(int i = 0; i < n; i++) scanf("%d", &a[i]);
+  
+  int hh = 0, tt = -1;
+  for(int i = 0; i < n; i++){
+    // 判断队头是否滑出窗口
+    if(hh <= tt && i-k+1> q[hh]) hh++;
+    while(hh <= tt && a[q[tt]] >= a[i]) tt --;
+
+    q[++ tt] = i;
+    if(i>= k -1) printf("%d ", a[q[hh]]);
+  }
+  puts("");
+  
+  hh = 0, tt = -1;
+  for(int i = 0; i < n; i++){
+    // 判断队头是否滑出窗口
+    if(hh <= tt && i-k+1> q[hh]) hh++;
+    while(hh <= tt && a[q[tt]] <= a[i]) tt --;
+
+    q[++ tt] = i;
+    if(i>= k -1) printf("%d ", a[q[hh]]);
+  }
+  puts("");
+  return 0;
+}
+```
+[注] scanf会比cin快很多
 # KMP
