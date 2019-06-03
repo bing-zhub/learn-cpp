@@ -1,35 +1,34 @@
 #include <iostream>
+
 using namespace std;
 
-const int N = 1e6 + 10;
+const int N = 10010, M = 100010;
 
-int n, k;
-int a[N], q[N];
+int n, m;
+int ne[N];
+char s[M], p[N];
 
-int main(){
-  scanf("%d %d", &n, &k);
-  for(int i = 0; i < n; i++) scanf("%d", &a[i]);
-  
-  int hh = 0, tt = -1;
-  for(int i = 0; i < n; i++){
-    // 判断队头是否滑出窗口
-    if(hh <= tt && i-k+1> q[hh]) hh++;
-    while(hh <= tt && a[q[tt]] >= a[i]) tt --;
+int main()
+{
+    cin >> n >> p + 1 >> m >> s + 1;
 
-    q[++ tt] = i;
-    if(i>= k -1) printf("%d ", a[q[hh]]);
-  }
-  puts("");
-  
-  hh = 0, tt = -1;
-  for(int i = 0; i < n; i++){
-    // 判断队头是否滑出窗口
-    if(hh <= tt && i-k+1> q[hh]) hh++;
-    while(hh <= tt && a[q[tt]] <= a[i]) tt --;
+    for (int i = 2, j = 0; i <= n; i ++ )
+    {
+        while (j && p[i] != p[j + 1]) j = ne[j];
+        if (p[i] == p[j + 1]) j ++ ;
+        ne[i] = j;
+    }
 
-    q[++ tt] = i;
-    if(i>= k -1) printf("%d ", a[q[hh]]);
-  }
-  puts("");
-  return 0;
+    for (int i = 1, j = 0; i <= m; i ++ )
+    {
+        while (j && s[i] != p[j + 1]) j = ne[j];
+        if (s[i] == p[j + 1]) j ++ ;
+        if (j == n)
+        {
+            printf("%d ", i - n);
+            j = ne[j];
+        }
+    }
+
+    return 0;
 }
