@@ -136,7 +136,91 @@ int main(){
   }
 }
 ```
+
+## 堆
+
+1. 插入一个数
+2. 求集合当中的最小值
+3. 删除最小值
+4. 删除任意一个元素
+5. 修改任意一个元素
+
+[堆排序](https://www.acwing.com/problem/content/840/)
+``` C++
+#include <iostream>
+
+#include <algorithm>
+
+using namespace std;
+
+const int N = 1e6 + 10;
+
+int n,m;
+
+int h[N], size;
+
+void down(int u){
+
+    int t = u;
+
+    // 左节点存在且小于父节点 则指向左节点
+
+    if(u * 2 <= size && h[u * 2] < h[t]) t = u * 2;
+
+    // 右节点存在且小于父节点 则指向右节点
+
+    if(u * 2 + 1 <= size && h[u*2+1] < h[t]) t = u * 2 + 1;
+
+    if(u!=t){
+
+        swap(h[u], h[t]);
+
+        down(t);
+
+    }
+
+}
+
+void up(int u){
+
+    while(u / 2 && h[u / 2] > h[u]){
+
+        swap(h[u / 2], h[u]);
+
+        u / 2;
+
+    }
+
+}
+
+int main(){
+
+    scanf("%d%d", &n, &m);
+
+    for(int i = 1; i <= n; i++) scanf("%d", &h[i]);
+
+    size = n;
+
+    for(int i = n/2; i >=1; i--) down(i);
+
+    while(m--){
+
+        printf("%d ", h[1]);
+
+        h[1] = h[size];
+
+        size --;
+
+        down(1);
+
+    }
+
+}
+```
+
+
 [模拟堆](https://www.acwing.com/problem/content/description/841/)
+
 ``` C++
 #include <iostream>
 #include <algorithm>
