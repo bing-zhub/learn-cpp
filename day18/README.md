@@ -2,6 +2,7 @@
 ### 存储结构
 [模拟散列表](https://www.acwing.com/problem/content/842/)
 1. 开放寻址法
+
 ``` C++
 #include <iostream>
 #include <cstring>
@@ -24,6 +25,7 @@ int main(){
   int n;
   scanf("%d", &n);
   
+  // memset 按字节set int是4个字节 
   memset(h, 0x3f, sizeof h);
   
   while(n--){
@@ -88,3 +90,12 @@ int main(){
 }
 ```
 ### 字符串哈希方式
+字符串前缀哈希法
+"ABCABCDE"
+h[0] = 0
+h[1] = "A"的Hash
+h[2] = "AB"的Hash
+
+看成P进制的数
+"ABCD"
+(A B C D)p = (1 2 3 4)p = (1*p^3 + 2*p^2 + 3*p + 4) mod Q
