@@ -136,3 +136,65 @@ top() // 返回栈顶元素
 pop() // 弹出栈顶元素
 ```
 
+### deque
+``` C++
+size()
+empty()
+clear()
+front()
+back()
+push_back() / pop_back()
+push_front() / push_back()
+begin() / end() 
+```
+
+### set multiset
+set不重复 / multiset 可重复
+``` C++
+size()
+empty()
+clear()
+insert() //插入一个数
+find() // 查找一个数
+count() // 返回某一个数的个数
+erase(x) // 删除等于这个数的所有元素 O(k + logn)
+erase(itr) // 删除迭代器
+lower_bound(x) // 返回大于等于x最小的迭代器
+upper_bound(x) // 返回大于x最小的迭代器
+begin() / end() // ++ -- 前驱 后继
+```
+### map multimap
+``` C++
+size()
+empty()
+clear()
+insert() // 插入的是pair
+erase() // pair或者迭代器
+find()
+begin() / end() // ++ -- 前驱 后继
+
+map<string, int> a;
+a["bing"] = 1;
+cout << a["bing] << endl; // 1 O(logn)
+```
+
+### unordered
+与上类似, 增删改查O(1)
+但内部无序, 不支持lower_bound/upper_bound, 不支持++/--
+
+### bitset
+```
+bitset<10000> s;
+~, &, |, ^
+>>, <<
+==, !=
+[]
+count() // 返回有多少个1
+any() // 是否有一个1
+none() // 是否全为0
+set() // 所有位置1
+set(k, v) // 将第k位置为1
+reset() // 所有位变成0
+flip() // 等价于~
+flip(k) // 第k位取反 
+``` 
