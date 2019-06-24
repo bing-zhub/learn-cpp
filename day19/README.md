@@ -85,3 +85,54 @@ p = {10, "bing"};
 ```
 
 ### string
+``` c++
+string a = "bing";
+a.size();
+a.empty();
+a.clear();
+
+a+= "ABC";
+a+= 'c';
+
+// 从0开始 起始位置1 长度3
+a.substr(1, 3)
+// 从1开始 所有
+a.substr(1)
+// 返回存储string数组的起始位置
+a.c_str();
+```
+
+### queue
+``` C++
+queue<int> a;
+a.size();
+a.empty();
+// 无clear() 直接构造空queue
+a.push();
+a.front();
+a.back();
+a.pop(); 
+```
+
+### priority_queue
+``` c++
+// 默认大根堆
+priority_queue<int> heap; 
+// 小根堆
+// 直接定义
+priority_queue<int, vector<int>, greater<int>> heap;
+// 或插入负数
+heap.push(-x);
+ 
+push() // 插入一个元素
+top() // 返回堆顶元素
+pop() // 弹出堆顶元素 
+```
+
+### stack
+``` C++
+push() // 向栈顶插入一个元素
+top() // 返回栈顶元素
+pop() // 弹出栈顶元素
+```
+
