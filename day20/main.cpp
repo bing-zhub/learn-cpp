@@ -151,8 +151,11 @@ int main(){
 存储
 1. 邻接矩阵
  O(n^2)  `g[a][b]` 存储a->b的信息 不存储重边 比较适合稠密图
-2. 邻接表
+2. 邻接表                            
 每个点一个单链表, 存储可以到达的节点
+[注]
+`e` 与 `ne` 构成一个链表, `h`放置头结点. 
+## 树与图的深度优先遍历
 
 [树的重心](https://www.acwing.com/problem/content/848/)
 ``` C++
@@ -206,8 +209,167 @@ int main(){
     cout << ans << endl;
 }
 ```
-## 树与图的深度优先遍历
-
 ## 树与图的广度优先遍历
+[图中点的层次](https://www.acwing.com/problem/content/849/)
+``` C++
+#include <cstdio>
+#include <cstring>
+#include <iostream>ß
+#include <algorithm>
+#include <queue>
 
+using namespace std;
+
+const int N = 1e6 + 10;
+
+int n, m;
+int h[N], e[N], ne[N], idx;
+int d[N];
+
+void add(int a, int b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx ++ ;
+}
+
+int bfs(){
+    memset(d, -1, sizeof d);
+
+    queue<int> q;
+    d[1] = 0;
+    q.push(1);
+
+    while (!q.empty()){
+        int t = q.front();
+        q.pop();
+
+        for (int i = h[t]; i != -1; i = ne[i])
+        {
+            int j = e[i];
+            if (d[j] == -1)
+            {
+                d[j] = d[t] + 1;
+                q.push(j);
+            }
+        }
+    }
+
+    return d[n];
+}
+
+int main()
+{
+    cin >> n >> m;
+    memset(h, -1, sizeof h);
+
+    for (int i = 0; i < m; i ++ )
+    {
+        int a, b;
+        cin >> a >> b;
+        add(a, b);
+    }
+
+    cout << bfs() << endl;
+
+    return 0;
+}
+```
 ## 拓扑排序
+有向无环图(拓扑图)才有拓扑序列
+起点都在终点点后面
+入度: 指向该节点的节点数
+出度: 从该节点指出的节点数
+入度为0的点都在拓扑序列前面. 
+[有向图的拓扑排序](https://www.acwing.com/problem/content/description/850/)
+``` C++
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int N = 100010;
+
+int n, m;
+
+int h[N], e[N], ne[N], idx;
+
+int d[N];
+
+int q[N];
+
+void add(int a, int b){
+
+    e[idx] = b, ne[idx] = h[a], h[a] = idx ++ ;
+
+}
+
+bool topsort(){
+
+    // 队头 队尾
+
+    int hh = 0, tt = -1;
+
+    // 所有入度为0的点入队
+
+    for (int i = 1; i <= n; i ++ )
+
+        if (!d[i])
+
+            q[ ++ tt] = i;
+
+    // 队不空
+
+    while (hh <= tt){
+
+        int t = q[hh ++ ];
+
+        for (int i = h[t]; i != -1; i = ne[i]){
+
+            int j = e[i];
+
+            if (-- d[j] == 0)
+
+                q[ ++ tt] = j;
+
+        }
+
+    }
+
+    // 所有点都进过队列
+
+    return tt == n - 1;
+
+}
+
+int main()
+
+{
+
+    scanf("%d%d", &n, &m);
+
+    memset(h, -1, sizeof h);
+
+    for (int i = 0; i < m; i ++ ){
+
+        int a, b;
+
+        scanf("%d%d", &a, &b);
+
+        add(a, b);
+
+        d[b] ++ ;
+
+    }
+
+    if (!topsort()) puts("-1");
+
+    else{
+
+        for (int i = 0; i < n; i ++ ) printf("%d ", q[i]);
+
+        puts("");
+
+    }
+
+    return 0;
+
+}
+```
