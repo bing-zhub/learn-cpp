@@ -32,7 +32,7 @@ bool st[N];
 int dijkstra(){
     memset(dist, 0x3f, sizeof dist);
     dist[1] = 0;
-    for(int i = 0; i < n; i++){
+    for(int i = 0; i < n - 1; i++){
         int t = -1;
         
         // 在所有st所有为false的点中找出距离最小的点
@@ -48,7 +48,7 @@ int dijkstra(){
             dist[j] = min(dist[j], dist[t] + g[t][j]);
     }
     
-    if(dist[n] == 0x3f3f3f) return -1; // 不连通
+    if(dist[n] == 0x3f3f3f3f) return -1; // 不连通
     return dist[n];
 }
 
@@ -59,7 +59,7 @@ int main(){
     while(m--){
         int a, b, c;
         scanf("%d%d%d", &a, &b, &c);
-        g[a][b] = min(g[a][b], c); // 重边;
+        g[a][b] = min(g[a][b], c); // 处理重边
     }
     
     printf("%d\n", dijkstra());
