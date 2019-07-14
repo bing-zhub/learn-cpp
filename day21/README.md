@@ -1,9 +1,3 @@
-
-
-
-
-
-
 # 最短路
 只用考虑有向图就好
 ![21692-py5wls88wwk.png](http://images.zshaopingb.cn/2019/07/164444866.png)
@@ -135,7 +129,60 @@ int main(){
 ```
 ### 存在负权边
 #### Bellman-Ford
-O(mn)
+O(mn) 
+[注]
+- 有负权回路, 最短路不一定存在(负环不再路径上则不影响)
+- 可以用来求是否存在负环, 但时间复杂度较高
+
+[有边数限制的最短路](https://www.acwing.com/problem/content/855/)
+``` C++
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 510, M = 1e5 + 10;
+
+int n, m, k;
+int dist[N], backup[N];
+
+struct Edge {
+    int a, b, w;
+}edges[M];
+ 
+int bellman_ford(){
+    memset(dist, 0x3f, sizeof dist);
+    dist[1] = 0;
+    
+    for(int i = 0; i < k; i++){
+        memcpy(backup, dist, sizeof dist);
+        for(int j = 0; j < m; j++){
+            int a = edges[j].a, b = edges[j].b, w = edges[j].w;
+            dist[b] = min(dist[b], backup[a] + w);
+        }
+    }
+    
+    // 防止0x3f3f3f3f被更新
+    if(dist[n] > 0x3f3f3f3f / 2) return -1;
+    return dist[n];
+}
+
+int main(){
+    scanf("%d%d%d", &n, &m, &k);
+    for(int i = 0; i < m; i++){
+        int a, b, w;
+        scanf("%d%d%d",  &a, &b, &w);
+        edges[i] = {a, b, w};
+    }
+    int t = bellman_ford();
+    
+    if(t == -1) puts("impossible");
+    else printf("%d\n", t);
+    
+    return 0;
+}
+```
 #### SPFA
 一般O(m) 最坏O(nm)
 ## 多源汇最短路
