@@ -7,6 +7,8 @@
     t <- 集合外距离最近的点
     用t更新其他点到集合的距离
     s[t] = true;
+
+[Prim算法求最小生成树](https://www.acwing.com/problem/content/860/)
 ``` C++
 #include <cstring>
 #include <iostream>
@@ -56,6 +58,60 @@ int main(){
 ```
 #### 堆优化的Prim算法 O(mlogn) -- 不常用
 ### Kruskal算法 O(mlogm)-- 稀疏图
+- 将所有边按权重从小到大排序 O(mlogm)
+- 从小到大枚举每条边 a-w-b
+  a/b不连通 将这条边加入集合中 
+[Kruskal算法求最小生成树](https://www.acwing.com/problem/content/861/)
+``` C++
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+const int N = 200010;
+
+int n, m;
+int p[N];
+
+struct Edge {
+    int a, b, w;
+    bool operator< (const Edge &W) const {
+        return w < W.w;
+    }
+} edges[N];
+
+int find(int x){
+    if(p[x] != x) p[x] = find(p[x]);
+    return p[x];
+}
+
+int main(){
+    scanf("%d%d", &n, &m);
+    for(int i = 0; i < m;i++){
+        int a, b, w;
+        scanf("%d%d%d", &a, &b, &w);
+        edges[i] = {a, b, w};
+    }
+    
+    sort(edges, edges + m);
+    
+    for(int i = 1; i<= n; i++) p[i] = i;
+    int res = 0, cnt = 0;
+    for(int i = 0; i < m; i++){
+        int a = edges[i].a, b = edges[i].b, w = edges[i].w;
+        a = find(a);
+        b = find(b);
+        if(a != b){
+            p[a] = b;
+            res += w;
+            cnt ++;
+        }
+    }
+    
+    if(cnt < n -1) puts("impossible");
+    else printf("%d\n", res);
+    return 0;
+}
+```
 ## 二分图
 ### 如何判别 -- 染色法 -- O(n+m)
 ### 匈牙利算法 -- 二分图的最大匹配 -- O(mn)
