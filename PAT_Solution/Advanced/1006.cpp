@@ -1,30 +1,21 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
+int signIn = 0x3f3f3f3f, signOut, n;
+string in, out;
+
 int main(){
-	int n;
-	cin >> n;
-	int max = INT_MIN, min = INT_MAX;
-	string lock, unlock; 
+	scanf("%d", &n);
 	for(int i = 0; i < n; i++){
-		int h1, m1, s1, h2, m2, s2;
 		string t;
+		int hi, mi, si, ho, mo, so;
 		cin >> t;
-		scanf("%d:%d:%d %d:%d:%d",&h1,&m1,&s1,&h2,&m2,&s2);
-		int in = h1*3600 + m1*60 + s1;
-		int out = h2*3600 + m2*60 + s2;
-		if(in < min){
-			min = in;
-			unlock = t;
-		}
-		if(out > max){
-			max = out;
-			lock = t;
-		}
+		scanf("%d:%d:%d %d:%d:%d", &hi, &mi, &si, &ho, &mo, &so);
+		int inTime = hi * 3600 + mi * 60 + si;
+		int outTime = ho * 3600 + mo * 60 + so;
+		if(inTime < signIn) signIn = inTime, in = t;
+		if(outTime > signOut) signOut = outTime, out = t;
 	}
-	
-	cout << unlock << " " <<lock;
-	 
-	
+	cout << in << ' ' << out;
 	return 0;
 }
