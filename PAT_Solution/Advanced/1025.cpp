@@ -6,7 +6,7 @@ struct node {
 	int score, local, localRank, finalRank;
 };
 
-int n, m, cnt;
+int n, m;
 
 bool cmp(node a, node b){
 	return a.score != b.score ? a.score > b.score : a.id < b.id;
@@ -21,7 +21,6 @@ int main(){
 		vector<node> tmp(m);
 		for(int j = 0; j < m; j++) {
 			cin >> tmp[j].id >> tmp[j].score;
-			cnt++;
 			tmp[j].local = i;
 		}
 		sort(tmp.begin(), tmp.end(), cmp);
@@ -39,9 +38,9 @@ int main(){
 		res[i].finalRank = i + 1;
 		if(res[i].score == res[i-1].score) res[i].finalRank = res[i-1].finalRank;
 	}
-	printf("%d", cnt);
+	printf("%d", res.size());
 	for(int i = 0; i < res.size(); i++){
-		printf("\n%ld %d %d %d", res[i].id, res[i].finalRank, res[i].local, res[i].localRank);
+		printf("\n%013lld %d %d %d", res[i].id, res[i].finalRank, res[i].local, res[i].localRank);
 	}
 	return 0;
 }
