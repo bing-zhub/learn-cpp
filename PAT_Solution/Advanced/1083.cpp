@@ -31,9 +31,8 @@ int main(){
   if(res.size() == 0){
     cout << "NONE";
   }else{
-    cout << res.size();
     for(auto c: res){
-      cout << "\n" << c.name << " " << c.course;
+      cout <<  c.name << " " << c.course << endl;
     }
   }
   return 0;
