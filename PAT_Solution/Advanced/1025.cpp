@@ -1,58 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Student{
-	char id[15];
-	int score;
-	int location_number;
-	int local_rank;
-}stu[30000];
+struct node {
+	long long id;
+	int score, local, localRank, finalRank;
+};
 
-bool cmp(Student a, Student b){
-	if(a.score != b.score)
-		return a.score > b.score;
-	else
-		return strcmp(a.id, b.id) < 0;
+int n, m, cnt;
+
+bool cmp(node a, node b){
+	return a.score != b.score ? a.score > b.score : a.id < b.id;
 }
 
+vector<node> res;
+
 int main(){
-	// 考场数，考场内人数，总考生数 
-	int n, k, num;
 	scanf("%d", &n);
 	for(int i = 1; i <= n; i++){
-		scanf("%d", &k);
-		for(int j = 0; j < k; j++){
-			scanf("%s %d", stu[num].id, &stu[num].score); 
-			stu[num++].location_number = i;
+		scanf("%d", &m);
+		vector<node> tmp(m);
+		for(int j = 0; j < m; j++) {
+			cin >> tmp[j].id >> tmp[j].score;
+			cnt++;
+			tmp[j].local = i;
 		}
-		//考场开始的位置  
-		sort(stu + num - k, stu + num, cmp); //部分排序  只排序当前考场 
-		
-		// 处理排名 
-		// 第一名 
-		stu[num - k].local_rank = 1;
-		
-		// 剩余（除第一名） 
-		for(int j = num - k + 1; j < num; j++){
-		// 该考场第j名学生  
-			if(stu[j].score == stu[j-1].score)
-				stu[j].local_rank = stu[j-1].local_rank;
-			else
-			//  该考生前面的人数 = 总排名（部分有序） - 起始位置 
-				stu[j].local_rank = j + 1 - (num - k);
-		} 
+		sort(tmp.begin(), tmp.end(), cmp);
+		tmp[0].localRank = 1;
+		res.push_back(tmp[0]);
+		for(int k = 1; k < m; k++){
+			tmp[k].localRank = k + 1;
+			if(tmp[k].score == tmp[k-1].score) tmp[k].localRank = tmp[k-1].localRank;
+			res.push_back(tmp[k]);
+		}
 	}
-	
-	printf("%d\n", num);
-	sort(stu, stu+num, cmp);
-	int r = 1;
-	for(int i =0; i < num; i++){
-		if(i>0 && stu[i].score!=stu[i-1].score )
-			r = i + 1;
-		printf("%s ", stu[i].id);
-		printf("%d %d %d\n",r, stu[i].location_number, stu[i].local_rank );
+	sort(res.begin(), res.end(), cmp);
+	res[0].finalRank = 1;
+	for(int i = 1; i < res.size(); i++){
+		res[i].finalRank = i + 1;
+		if(res[i].score == res[i-1].score) res[i].finalRank = res[i-1].finalRank;
 	}
-	
-	
+	printf("%d", cnt);
+	for(int i = 0; i < res.size(); i++){
+		printf("\n%ld %d %d %d", res[i].id, res[i].finalRank, res[i].local, res[i].localRank);
+	}
 	return 0;
-} 
+}
